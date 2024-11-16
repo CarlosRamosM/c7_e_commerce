@@ -1,0 +1,36 @@
+@startuml c7_e_commerce component
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Diagrama de Componentes / Iventory API - C7 E-Commerce
+
+LAYOUT_LEFT_RIGHT()
+
+Container(web_app, "Web App", "VueJS", "Provee toda la funcionalidad necesaria por un cliente de la plataforma de compra atraves de un navegador web.")
+ContainerDb(database, "Inventory DB", "Relational Database Schema - PostgreSQL", "Schema - Inventory")
+System_Ext(security_system, "OAUTH")
+
+Container_Boundary(inventory_api, "Inventory API") {
+    Component(sign_in, "Sign In Controller", "Spring MVC Rest Controller", "")
+    Component(add_controller, "Add Inventory Controller", "Spring MVC Rest Controller", "")
+    Component(modify_controller, "Modify Inventory Controller", "Spring MVC Rest Controller", "")
+    Component(report_controller, "Report Inventory Controller", "Spring MVC Rest Controller", "")
+    Component(security, "Security Component", "Spring Bean", "")
+    Component(add_component, "Add Inventory Component", "Spring Bean", "")
+    Component(modify_component, "Modify Inventory Component", "Spring Bean", "")
+    Component(report_component, "Report Inventory Component", "Spring Bean", "")
+}
+
+Rel(web_app, sign_in, "Uses", "HTTPS")
+
+Rel(add_controller, add_component, "Uses", "DI")
+Rel(modify_controller, modify_component, "Uses", "DI")
+Rel(report_controller, report_component, "Uses", "DI")
+Rel(sign_in, security, "Uses", "DI")
+
+Rel(security, security_system, "Uses", "HTTPS")
+
+Rel(add_component, database, "Escritura en la base de datos", "JDBC")
+Rel(modify_component, database, "Escritura en la base de datos", "JDBC")
+Rel(report_component, database, "Lectura desde la base de datos", "JDBC")
+
+@enduml
