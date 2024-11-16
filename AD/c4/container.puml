@@ -1,0 +1,49 @@
+@startuml c7_e_commerce container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+HIDE_STEREOTYPE()
+'LAYOUT_WITH_LEGEND()
+'SHOW_PERSON_OUTLINE()
+'LAYOUT_TOP_DOWN()
+'LAYOUT_AS_SKETCH()
+
+title Diagrama de Contenedores - C7 E-Commerce
+
+Person(stock, "Almacen", "Usuario interno con rol de almacen. Cuenta con los permisos necesarios para el manejo de inventario de productos ofrecidos dentro de la plataforma.")
+Person(sales, "Ventas", "Usuario interno con rol de ventas. cuenta con los permisos necesarios para efectuar operaciones referentes a una venta dentro de la plataforma.")
+Person(client, "Cliente", "Cliente de la plataforma e-commerce")
+
+System_Boundary(system_commerce, "C7 E-Commerce") {
+    Container(web_app, "Web App", "VueJS", "")
+    Container(mobile_app, "Mobile App", "Flutter", "")
+    Container(inventory_api, "Inventory API", "Java Spring", "")
+    Container(invoice_api, "Ivoice API", "Java Spring", "")
+    ContainerDb(database, "DB", "SQL Database")
+}
+
+System_Ext(email_system, "E-Mail", "Sistema de envio de correo electronico.")
+System_Ext(push_system, "Notificación Push", "Sistema de notificaciones puesh.")
+System_Ext(payment_system, "Pasarela de pago", "Sistema para manejo de pagos.")
+System_Ext(image_container, "Contenedor Multimedia", "Repositorio de imagénes y vídeos de los productos ofrecidos en la plataforma.")
+
+Rel(client, web_app, "<<Uses>>", "HTTPS")
+Rel(stock, web_app, "<<Usess>>", "HTTPS")
+Rel(sales, web_app, "<<Uses>>", "HTTP")
+Rel(client, mobile_app, "<<Uses>>")
+
+Rel(web_app, inventory_api, "<<Uses>>", "HTTPS")
+Rel(web_app, invoice_api, "<<Uses>>", "HTTPS")
+Rel(web_app, image_container, "<<Uses>>", "HTTPS")
+
+Rel(mobile_app, image_container, "<<Uses>>", "HTTPS")
+Rel(mobile_app, invoice_api, "<<Uses>>", "HTTPS")
+
+Rel(inventory_api, database, "<<Uses>>")
+Rel_Back_Neighbor(database, invoice_api, "R/W desde la DB", "sync, JDBC")
+Rel_Back_Neighbor(database, inventory_api, "R/W desde la DB", "sync, JDBC")
+
+Rel(inventory_api, email_system, "Envía correo electronico", "HTTPS")
+Rel(invoice_api, email_system, "Envía correo electronico", "HTTPS")
+Rel(invoice_api, push_system, "Envía notificación push")
+Rel(inventory_api, payment_system, "Procesa los pagos de facturas", "HTTPS")
+
+@enduml

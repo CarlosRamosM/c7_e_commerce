@@ -1,0 +1,25 @@
+@startuml c7_e_commerce context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+HIDE_STEREOTYPE()
+
+title Diagrama de Contexto - C7 E-Commerce
+
+System(ecommerce, "E-Commerce C7", "Ofrece venta de diversos productos dentro de una plataforma amigable tanto con usuarios vendedores y compradores")
+System(inventory, "Inventario", "Ofrece componentes necesarios para el manejo y control de los productos ofrecidos por cada proveedor dentro de la plataforma, asegurando una correcta cadena de suministro")
+System(invoice, "Facturación", "Ofrece componentes necesarios, para el manejo de los diversos estados/escenarios que puede tener una factura emitida a un cliente de la plataforma")
+System_Ext(payment, "Pasarela de pago", "Plataforma de procesamiento de pagos.")
+System_Ext(notification, "Notificaciones", "Sistema de notificaciones, email/push")
+Person(stock, "Almacen", "Usuario interno con rol de almacen. Cuenta con los permisos necesarios para el manejo de inventario de productos ofrecidos dentro de la plataforma.")
+Person(sales, "Ventas", "Usuario interno con rol de ventas. cuenta con los permisos necesarios para efectuar operaciones referentes a una venta dentro de la plataforma.")
+Person(client, "Cliente", "Cliente de la plataforma e-commerce")
+
+Rel(client, ecommerce, "<<Uses>>")
+Rel(ecommerce, inventory, "")
+Rel(ecommerce, invoice, "")
+Rel(stock, inventory, "<<Uses>>")
+Rel(sales, invoice, "<<Uses>>")
+Rel(invoice, payment, "<<Uses>>")
+Rel(inventory, notification, "<<Uses>>")
+Rel(invoice, notification, "<<Uses>>")
+Rel(notification, client, "Envía notificación")
+@enduml
