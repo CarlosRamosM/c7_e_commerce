@@ -41,69 +41,57 @@ Esto nos ayudara a tener diferentes proyectos que actuaran como modulos del sist
 
 Cada uno de los proyectos anteriores podrán ser tomados como unidaddes independientes para su desarrollo y posteriormente despliegue en la infractuctura seleccionada.
 
-Con la elección de "Clean Architecture", podemos organizar los paquetes de los proyectos de la siguiente manera:
+Con la elección de __"Clean Architecture"__, podemos organizar los paquetes de los proyectos de la siguiente manera:
+
+>Robert C. Martin: [Clean Code Blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 
 ```plaintext
-com.c7.ecommerce.(bounded_context)  //bounded_context sera sustituido por el nombre (inventory, orders, invoice)
+com.c7.ecommerce.(bounded_context)  //bounded_context sera sustituido por el nombre del modulo (inventory, orders, invoice)
 │
 ├── domain            // Núcleo de la lógica de negocio
 │   ├── model         // Entidades y objetos de dominio
 │   ├── repository    // Interfaces para acceso a datos
 │   └── service       // Lógica de dominio compleja (opcional)
 │
-├── application       // Casos de uso (orquestan la lógica del dominio)
-│   ├── usecase       // Implementaciones de casos de uso
-│   └── port          // Interfaces para interactuar con las capas externas
+├── application       // Lógica del dominio de negocio
+│   ├── exceptions    // Excepciones custom sobre los casos de uso
+│   ├── usecase       // Interfaces funcionales de Casos de uso
+|   │   ├── impl      // Implementaciones de casos de uso
+│   └── service       // Contratos de integración de servicios en capas externas
 │
 ├── infrastructure    // Implementaciones técnicas (bases de datos, APIs, etc.)
-│   ├── repository    // Implementaciones de los repositorios
-│   ├── messaging     // Integración con mensajería o eventos
+│   ├── repository    // Implementaciones especificas de los repositorios
+│   ├── controller    // Controladores REST
 │   └── configuration // Configuración técnica (Spring, etc.)
+│   └── integration   // Implementaciones especificas con sistemas externos
 │
-└── adapters          // Adaptadores para interfaces de usuario
-    ├── rest          // Controladores REST
 
 ```
 
 ### Positive Consequences <!-- optional -->
 
-* [e.g., improvement of quality attribute satisfaction, follow-up decisions required, …]
-* …
+Agregar nuevas características al proyecto, eliminar o modificar características, validar, corregir errores, probar, manejar errores y entregar el proyecto se vuelven más fáciles con una arquitectura limpia.
+
+* :heavy_check_mark: __Modularidad y mantenibilidad:__
+La Arquitectura Limpia promueve la modularidad separando las preocupaciones en distintas capas. Esto hace que el código base sea más fácil de mantener y facilita las actualizaciones o cambios en componentes específicos sin afectar a toda la aplicación.
+* :heavy_check_mark: __Comprobabilidad:__
+La separación de responsabilidades facilita las pruebas unitarias. La lógica empresarial de la capa central puede probarse independientemente de las dependencias externas, lo que permite realizar pruebas más sólidas y fiables.
+* :heavy_check_mark: __Independencia de los marcos:__
+La lógica empresarial central no está estrechamente vinculada a marcos de trabajo o bibliotecas específicos. Esta independencia facilita el cambio o la actualización de frameworks sin afectar a la funcionalidad central.
+* :heavy_check_mark: __Flexibilidad:__
+La Arquitectura Limpia proporciona flexibilidad en la elección de tecnologías para las diferentes capas. Por ejemplo, se puede cambiar entre diferentes frameworks web, bases de datos o frameworks de interfaz de usuario sin grandes cambios en la lógica de negocio central.
+* :heavy_check_mark: __Escalabilidad:__
+La estructura modular de la Arquitectura Limpia permite una mejor escalabilidad. Es más fácil escalar distintas partes de la aplicación de forma independiente, y los equipos pueden trabajar en capas específicas sin interferir con otras.
 
 ### Negative Consequences <!-- optional -->
 
-* [e.g., compromising quality attribute, follow-up decisions required, …]
-* …
-
-## Pros and Cons of the Options <!-- optional -->
-
-### [option 1]
-
-[example | description | pointer to more information | …] <!-- optional -->
-
-* Good, because [argument a]
-* Good, because [argument b]
-* Bad, because [argument c]
-* … <!-- numbers of pros and cons can vary -->
-
-### [option 2]
-
-[example | description | pointer to more information | …] <!-- optional -->
-
-* Good, because [argument a]
-* Good, because [argument b]
-* Bad, because [argument c]
-* … <!-- numbers of pros and cons can vary -->
-
-### [option 3]
-
-[example | description | pointer to more information | …] <!-- optional -->
-
-* Good, because [argument a]
-* Good, because [argument b]
-* Bad, because [argument c]
-* … <!-- numbers of pros and cons can vary -->
-
-## Links <!-- optional -->
-
-* … <!-- numbers of links can vary -->
+* :x: __Complejidad:__
+Implementar una Arquitectura Limpia puede introducir una complejidad adicional, especialmente en las fases iniciales de desarrollo. La separación de preocupaciones puede dar lugar a más archivos y directorios, lo que podría resultar abrumador para los proyectos más pequeños.
+* :x: __Curva de aprendizaje:__
+Los desarrolladores que no conocen la Arquitectura Limpia pueden enfrentarse a una curva de aprendizaje. Comprender los principios y aplicar correctamente la arquitectura puede requerir tiempo y esfuerzo.
+* :x: __Boilerplate:__
+La Arquitectura Limpia puede implicar escribir más código repetitivo, sobre todo en la asignación de datos entre capas. Esto podría aumentar el tiempo de desarrollo, aunque se argumenta que las ventajas de mantenimiento compensan este inconveniente.
+* :x: __Sobre-ingeniería para proyectos sencillos:__
+La Arquitectura Limpia puede ser excesiva para proyectos sencillos o pequeños en los que las ventajas de la separación y la modularidad no son tan pronunciadas. En estos casos, una arquitectura más sencilla puede ser más adecuada.
+* :x: __Sobrecarga de rendimiento:__
+Las capas y abstracciones adicionales de "Clean Architecture" podrían introducir cierta sobrecarga de rendimiento. En aplicaciones en las que el rendimiento es crítico, podría ser necesario un estudio y una optimización cuidadosos.

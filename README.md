@@ -16,9 +16,10 @@ Para el correcto uso de este repositorio, es neceario contar con las siguientes 
     * :zap: Plugin: [VSCode](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
     * :zap: Plugin: [Eclipse](https://plantuml.com/es-dark/eclipse)
     * :zap: Plugin: [NetBeans](https://plugins.netbeans.apache.org/?search=plantuml)
-4. :wrench: **Editor de texto preferido (SublimeText, VSCode, NotePad++, etc)**
-5. :wrench: **IDE para JAVA preferido (Eclipse, NetBeans, Intellij IDEA, ect)**
-6. :wrench: **Docker**
+4. :wrench: **[C4-Plant UML](https://github.com/plantuml-stdlib/C4-PlantUML)**
+5. :wrench: **Editor de texto preferido (SublimeText, VSCode, NotePad++, etc)**
+6. :wrench: **IDE para JAVA preferido (Eclipse, NetBeans, Intellij IDEA, ect)**
+7. :wrench: **Docker**
 
 ## Descripción del repositorio
 
